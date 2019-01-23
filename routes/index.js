@@ -71,7 +71,16 @@ console.log(results.rows);
 
 /* ERP Update   */
 router.post('/erporders/:id', function(req, res, next) {
-  const { name, code, customer, ordernumber, sunnyorderid, status } = req.body
+  acc.set('Description', req.body.description);
+
+  const name = req.body.name;
+  const code = req.body.code;
+  const customer = req.body.customer;
+  const ordernumber = req.body.ordernumber;
+  const sunnyorderid = req.body.sunnyorderid;
+  const status = req.body.status;
+  
+  /*const { name, code, customer, ordernumber, sunnyorderid, status } = req.body */
   const whereid = req.params.id;
 
   pool.query('UPDATE erporder set status = ($1) WHERE ID = ($2)', [status, whereid], (error, results) => {
@@ -118,8 +127,15 @@ router.post('/erporders/:id', function(req, res, next) {
 
 /* ERP Insert   */
 router.post('/erporders', function(req, res, next) {
-  const { name, code, customer, ordernumber, sunnyorderid, status } = req.body
-
+  /* const { name, code, customer, ordernumber, sunnyorderid, status } = req.body */
+  
+  const name = req.body.name;
+  const code = req.body.code;
+  const customer = req.body.customer;
+  const ordernumber = req.body.ordernumber;
+  const sunnyorderid = req.body.sunnyorderid;
+  const status = req.body.status;
+  
   pool.query('INSERT INTO erporder (name, code, customer, ordernumber, sunnyorderid, status) VALUES ($1, $2, $3, $4, $5, $6)', [name, code, customer, ordernumber, sunnyorderid, status], (error, results) => {
     if (error) {
       throw error
@@ -140,7 +156,13 @@ router.get('/logistics', function(req, res, next) {
 
 /* Logistics Insert   */
 router.post('/logistics', function(req, res, next) {
-  const { productname, customername, sunnyorderid, status } = req.body
+
+  const productname = req.body.productname;
+  const customername = req.body.customername;
+  const sunnyorderid = req.body.sunnyorderid;
+  const status = req.body.status;
+  
+/*  const { productname, customername, sunnyorderid, status } = req.body */
 
   pool.query('INSERT INTO logistics (productname, customername, sunnyorderid, status) VALUES ($1, $2, $3, $4)', [productname, customername, sunnyorderid, status], (error, results) => {
     if (error) {
@@ -153,7 +175,10 @@ router.post('/logistics', function(req, res, next) {
 
 /* Logistics Update */
 router.post('/logistics/:id', function(req, res, next) {
-  const { sunnyorderid, status } = req.body
+  /*const { sunnyorderid, status } = req.body */
+
+  const sunnyorderid = req.body.sunnyorderid;
+  const status = req.body.status;
   const whereid = req.params.id;
 
   pool.query('UPDATE logistics set status = ($1) WHERE ID = ($2)', [status, whereid], (error, results) => {

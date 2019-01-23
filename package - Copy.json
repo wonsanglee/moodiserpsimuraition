@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "engines": {
-    "node": "5.3.x"
+    "node": "0.10.x"
   },
   "dependencies": {
     "bluebird": "^2.9.34",

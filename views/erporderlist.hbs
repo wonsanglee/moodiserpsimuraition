@@ -1,0 +1,20 @@
+<h1>Ordered list on ERP</h1>
+
+<table class="table">
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>customer</th>
+    <th>ordernumber</th>
+    <th>status</th>
+  </tr>
+  {{#each records}}
+    <tr>
+      <td>{{get 'id'}}</td>
+      <td>{{get 'name'}}</td>
+      <td>{{get 'customer'}}</td>
+      <td>{{get 'ordernumber'}}</td>
+      <td>{{get 'status'}}</td>
+    </tr>
+  {{/each}}
+</table>

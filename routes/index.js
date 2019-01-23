@@ -71,7 +71,6 @@ console.log(results.rows);
 
 /* ERP Update   */
 router.post('/erporders/:id', function(req, res, next) {
-  acc.set('Description', req.body.description);
 
   const name = req.body.name;
   const code = req.body.code;

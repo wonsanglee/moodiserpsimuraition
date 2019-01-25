@@ -363,10 +363,10 @@ function converTable_LogisticsList(_url, obj) {
     _html_output += '<tr><form method=\"post\" action=\"' + _url + '/' + _id + '\">';
     _html_output += '<td>';
 
-    _html_output += '<input type=\"hidden\" name=\"name\" value=\"' + _productname + '\">';
-    _html_output += '<input type=\"hidden\" name=\"customer\" value=\"' + _customername + '\">';
+//    _html_output += '<input type=\"hidden\" name=\"name\" value=\"' + _productname + '\">';
+//    _html_output += '<input type=\"hidden\" name=\"customer\" value=\"' + _customername + '\">';
     _html_output += '<input type=\"hidden\" name=\"sunnyorderid\" value=\"' + _sunnyorderid + '\">';
-    _html_output += '<input type=\"hidden\" name=\"status\" value=\"Delivery Started\">';
+    _html_output += '<input type=\"hidden\" name=\"status\" value=\"Delivered\">';
 
     _html_output += _id;
     _html_output += '</td><td>';

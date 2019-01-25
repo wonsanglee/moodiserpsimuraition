@@ -280,7 +280,7 @@ router.post('/:id', function(req, res, next) {
 });
 
 function converTable_ERPList(_url, obj) {
-  var _html_output = '<html><head><h3>Ildong Medicine Manufacture Factory System(ERP)</h3>';
+  var _html_output = '<html><head><h3>Ildong Medicine Manufacture Factory System(ERP)</h3><title>ERP</title>';
 
   _html_output += '<style> table { width: 100%; border-top: 1px solid #444444; border-collapse: collapse; } th, td { border-bottom: 1px solid #444444; padding: 10px;} </style></head><p>';
   _html_output += '<img src=ildong_a.jpg>';
@@ -338,7 +338,7 @@ function converTable_ERPList(_url, obj) {
 
 
 function converTable_LogisticsList(_url, obj) {
-  var _html_output = '<html><head><h3>DHL Delivery Service</h3>';
+  var _html_output = '<html><head><h3>DHL Delivery Service</h3><title>DHL</title>';
 
   _html_output += '<style> table { width: 100%; border-top: 1px solid #444444; border-collapse: collapse; } th, td { border-bottom: 1px solid #444444; padding: 10px;} </style></head><p>';
   _html_output += '<img src=dhl_express_720x233.jpg height=>';

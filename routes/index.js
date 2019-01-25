@@ -53,7 +53,7 @@ router.post('/', function(req, res, next) {
 /* Sunny Add... */
 /* ERP List     */
 router.get('/erporders', function(req, res, next) {
-   pool.query('SELECT row_to_json(t) FROM (SELECT id, name, customer, ordernumber, sunnyorderid, status FROM erporder ORDER BY id ASC) t', (error, results) => {
+   pool.query('SELECT row_to_json(t) FROM (SELECT id, name, customer, ordernumber, sunnyorderid, status FROM erporder ORDER BY id DESC) t', (error, results) => {
     if (error) {
       throw error
     }
@@ -147,7 +147,7 @@ router.post('/erporders', function(req, res, next) {
 
 /* Logistics List     */
 router.get('/logistics', function(req, res, next) {
-   pool.query('SELECT row_to_json(t) FROM (SELECT id, productname, customername, sunnyorderid, status FROM logistics ORDER BY id ASC) t', (error, results) => {
+   pool.query('SELECT row_to_json(t) FROM (SELECT id, productname, customername, sunnyorderid, status FROM logistics ORDER BY id DESC) t', (error, results) => {
     if (error) {
       throw error
     }

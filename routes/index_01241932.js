@@ -53,14 +53,12 @@ router.post('/', function(req, res, next) {
 /* Sunny Add... */
 /* ERP List     */
 router.get('/erporders', function(req, res, next) {
-   pool.query('SELECT row_to_json(t) FROM (SELECT id, name, customer, ordernumber, sunnyorderid, status FROM erporder ORDER BY id ASC) t', (error, results) => {
+   pool.query('SELECT id, name, customer, ordernumber, sunnyorderid, status FROM erporder ORDER BY id ASC', (error, results) => {
     if (error) {
       throw error
     }
 /*    res.render('erporderlist', { records: results.records }); */
-/*    res.status(200).json(results.rows)   */
-      res.status(200).send(converTable_ERPList(req.protocol + '://' + req.get('host') + '/erporders',results.rows));
-      
+    res.status(200).json(results.rows)   
 
 /*
 console.log(results.rows);
@@ -147,13 +145,11 @@ router.post('/erporders', function(req, res, next) {
 
 /* Logistics List     */
 router.get('/logistics', function(req, res, next) {
-//pool.query('SELECT row_to_json(t) FROM (SELECT id, name, customer, ordernumber, sunnyorderid, status FROM erporder ORDER BY id ASC) t', (error, results) => {
-   pool.query('SELECT row_to_json(t) FROM (SELECT id, productname, customername, sunnyorderid, status FROM logistics ORDER BY id ASC) t', (error, results) => {
+   pool.query('SELECT id, productname, customername, sunnyorderid, status FROM logistics ORDER BY id ASC', (error, results) => {
     if (error) {
       throw error
     }
-    //res.status(200).json(results.rows)   
-    res.status(200).send(converTable_LogisticsList(req.protocol + '://' + req.get('host') + '/logistics',results.rows));
+    res.status(200).json(results.rows)   
   });
 });
 
@@ -278,115 +274,5 @@ router.post('/:id', function(req, res, next) {
       res.redirect('/' + req.params.id);
     })
 });
-
-function converTable_ERPList(_url, obj) {
-  var _html_output = '<html><head><h3>Ildong Medicine Manufacture Factory System(ERP)</h3>';
-
-  _html_output += '<style> table { width: 100%; border-top: 1px solid #444444; border-collapse: collapse; } th, td { border-bottom: 1px solid #444444; padding: 10px;} </style></head><p>';
-  _html_output += '<img src=ildong_a.jpg>';
-  _html_output += '<table><tr><td>ID</td><td>Product Name</td><td>Customer</td><td>Order Quantity</td><td>Order ID</td><td>Status</td><td>Start Delivery</td></tr>';
-//  obj = JSON.parse(json);
-
-
-  console.log(JSON.stringify(obj));
-//  var _data_count = obj['rows'].length;
-
-  var _data_count = obj.length;
-
-  for (var i = 0;i < _data_count;i ++) {
-
-    _id = obj[i]['row_to_json'].id;
-    _name = obj[i]['row_to_json'].name;
-    _customer = obj[i]['row_to_json'].customer;
-    _ordernumber = obj[i]['row_to_json'].ordernumber;
-    _sunnyorderid = obj[i]['row_to_json'].sunnyorderid;
-    _status = obj[i]['row_to_json'].status;
-
-
-    _html_output += '<tr><form method=\"post\" action=\"' + _url + '/' + _id + '\">';
-    _html_output += '<td>';
-
-    _html_output += '<input type=\"hidden\" name=\"name\" value=\"' + _name + '\">';
-    _html_output += '<input type=\"hidden\" name=\"customer\" value=\"' + _customer + '\">';
-    _html_output += '<input type=\"hidden\" name=\"ordernumber\" value=\"' + _ordernumber + '\">';
-    _html_output += '<input type=\"hidden\" name=\"sunnyorderid\" value=\"' + _sunnyorderid + '\">';
-    _html_output += '<input type=\"hidden\" name=\"status\" value=\"Delivery Started\">';
-
-    _html_output += _id;
-    _html_output += '</td><td>';
-    _html_output += _name;
-    _html_output += '</td><td>';
-    _html_output += _customer;
-    _html_output += '</td><td>';
-    _html_output += _ordernumber;
-    _html_output += '</td><td>';
-    _html_output += _sunnyorderid;
-    _html_output += '</td><td>';
-    _html_output += _status;
-    if (_status.trim() == 'Ordered') {
-      _html_output += '</td><td><input type=\"submit\" value=\"Start Delivery\"></td></form></tr>\r\n';
-    } else {
-      _html_output += '</td><td><input type=\"submit\" value=\"Start Delivery\" disabled></td></form></tr>\r\n';
-    }
-    
-  }
-  _html_output += '</td></tr></table>';
-  console.log(_html_output);
-  return _html_output;
- 
-};
-
-
-function converTable_LogisticsList(_url, obj) {
-  var _html_output = '<html><head><h3>DHL Delivery Service</h3>';
-
-  _html_output += '<style> table { width: 100%; border-top: 1px solid #444444; border-collapse: collapse; } th, td { border-bottom: 1px solid #444444; padding: 10px;} </style></head><p>';
-  _html_output += '<img src=dhl_express_720x233.jpg height=>';
-  _html_output += '<table><tr><td>ID</td><td>Product Name</td><td>Customer</td><td>Order ID</td><td>Status</td><td>Delivery Finished</td></tr>';
-//  obj = JSON.parse(json);
-
-
-//  console.log(JSON.stringify(obj));
-//  var _data_count = obj['rows'].length;
-
-  var _data_count = obj.length;
-
-  for (var i = 0;i < _data_count;i ++) {
-
-    _id = obj[i]['row_to_json'].id;
-    _productname = obj[i]['row_to_json'].productname;
-    _customername = obj[i]['row_to_json'].customername;
-    _sunnyorderid = obj[i]['row_to_json'].sunnyorderid;
-    _status = obj[i]['row_to_json'].status;
-
-
-    _html_output += '<tr><form method=\"post\" action=\"' + _url + '/' + _id + '\">';
-    _html_output += '<td>';
-
-//    _html_output += '<input type=\"hidden\" name=\"name\" value=\"' + _productname + '\">';
-//    _html_output += '<input type=\"hidden\" name=\"customer\" value=\"' + _customername + '\">';
-    _html_output += '<input type=\"hidden\" name=\"sunnyorderid\" value=\"' + _sunnyorderid + '\">';
-    _html_output += '<input type=\"hidden\" name=\"status\" value=\"Delivered\">';
-
-    _html_output += _id;
-    _html_output += '</td><td>';
-    _html_output += _productname;
-    _html_output += '</td><td>';
-    _html_output += _customername;
-    _html_output += '</td><td>';
-    _html_output += _sunnyorderid;
-    _html_output += '</td><td>';
-    _html_output += _status;
-    if (_status.trim() == 'Delivery Started') {
-      _html_output += '</td><td><input type=\"submit\" value=\"Finish Delivery\"></td></form></tr>\r\n';
-    } else {
-      _html_output += '</td><td><input type=\"submit\" value=\"Delivered\" disabled></td></form></tr>\r\n';
-    }
-  }
-  _html_output += '</td></tr></table>';
-  console.log(_html_output);
-  return _html_output;
-};
-
 
 module.exports = router;

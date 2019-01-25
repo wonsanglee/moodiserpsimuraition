@@ -147,7 +147,6 @@ router.post('/erporders', function(req, res, next) {
 
 /* Logistics List     */
 router.get('/logistics', function(req, res, next) {
-//pool.query('SELECT row_to_json(t) FROM (SELECT id, name, customer, ordernumber, sunnyorderid, status FROM erporder ORDER BY id ASC) t', (error, results) => {
    pool.query('SELECT row_to_json(t) FROM (SELECT id, productname, customername, sunnyorderid, status FROM logistics ORDER BY id ASC) t', (error, results) => {
     if (error) {
       throw error
@@ -202,18 +201,19 @@ router.post('/logistics/:id', function(req, res, next) {
 });
 
 /* Product List     */
-router.get('/Product', function(req, res, next) {
+router.get('/product', function(req, res, next) {
   org.query({ query: "Select Id, Name, sunnyProductCode__c, sunnyProductDesc__c, sunnyProductPrice__c, sunnyProductStock__c From sunnyProduct__c Order By sunnyProductCode__c" })
     .then(function(results){
 //      res.render('index', { records: results.records });
-    res.status(200).json(results.records)  
+    //res.status(200).json(results.records)  
+    res.status(200).send(converTable_ProductList(req.protocol + '://' + req.get('host') + '/product',results.records));
 //console.log(results);
 //console.log(results.records);
     });
 });
 
 /* Product Update */
-router.post('/Product/:id', function(req, res, next) {
+router.post('/product/:id', function(req, res, next) {
 
   var sunnyProduct = nforce.createSObject('sunnyProduct__c');
   sunnyProduct.set('Id', req.params.id);
@@ -388,5 +388,62 @@ function converTable_LogisticsList(_url, obj) {
   return _html_output;
 };
 
+
+function converTable_ProductList(_url, obj) {
+  var _html_output = '<html><head><h3>Product Management</h3><title>Product</title>';
+
+  _html_output += '<style> table { width: 100%; border-top: 1px solid #444444; border-collapse: collapse; } th, td { border-bottom: 1px solid #444444; padding: 10px;} </style></head><p>';
+  _html_output += '<img src=201809121886331489_2.jpg height=>';
+  _html_output += '<table><tr><td>ID</td><td>Product Name</td><td>Product Code</td><td>product Desc</td><td>Unit Price</td><td>Stock</td><td>Update</td></tr>';
+//  obj = JSON.parse(json);
+
+
+  //console.log(JSON.stringify(obj));
+  
+  obj = JSON.parse(JSON.stringify(obj));
+  console.log(obj);
+//  var _data_count = obj['rows'].length;
+
+  var _data_count = obj.length;
+
+  for (var i = 0;i < _data_count;i ++) {
+
+
+console.log('id = ' + obj[i].id);
+    _id = obj[i].id;
+    _name = obj[i].name;
+    _sunnyproductcode__c = obj[i].sunnyproductcode__c;
+    _sunnyproductdesc__c = obj[i].sunnyproductdesc__c;
+    _sunnyproductprice__c = obj[i].sunnyproductprice__c;
+    _sunnyproductstock__c = obj[i].sunnyproductstock__c;
+
+
+    _html_output += '<tr><form method=\"post\" action=\"' + _url + '/' + _id + '\">';
+    _html_output += '<td>';
+
+
+//    _html_output += '<input type=\"hidden\" name=\"price\" value=' + _sunnyproductprice__c + '>';
+//    _html_output += '<input type=\"hidden\" name=\"stock\" value=' + _sunnyproductstock__c + '>';
+
+    _html_output += _id;
+    _html_output += '</td><td>';
+    _html_output += _name;
+    _html_output += '</td><td>';
+    _html_output += _sunnyproductcode__c;
+    _html_output += '</td><td>';
+    _html_output += _sunnyproductdesc__c;
+    _html_output += '</td><td>';
+    //_html_output += _sunnyproductprice__c;
+    _html_output += '<input type=\"text\" name=\"price\" value=' + _sunnyproductprice__c + '>';
+    _html_output += '</td><td>';
+    //_html_output += _sunnyproductstock__c;
+    _html_output += '<input type=\"text\" name=\"stock\" value=' + _sunnyproductstock__c + '>';
+    _html_output += '</td><td><input type=\"submit\" value=\"Modify\"></td></form></tr>\r\n';
+    
+  }
+  _html_output += '</td></tr></table>';
+  console.log(_html_output);
+  return _html_output;
+};
 
 module.exports = router;
